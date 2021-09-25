@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { inject, observer } from "mobx-react";
+import { Spin } from "antd";
 
-// @inject("rootStore")
-// @observer
+@inject("rootStore")
+@observer
 class Test extends Component {
   constructor(props) {
     super(props);
@@ -11,27 +12,30 @@ class Test extends Component {
     const {
       rootStore: { userStore },
     } = this.props;
-    console.log("rerender");
     return (
       <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <p>{userStore.counter}</p>
-          <button onClick={() => userStore.incr()}>Incr</button>
-        </header>
+        {userStore.token && <div>Token của bạn là: {userStore.token}</div>}
+        <div>
+          <input
+            type="text"
+            onChange={(e) =>
+              userStore.setFormFields("email", e.target.value)
+            }
+          />
+          <input
+            type="text"
+            onChange={(e) =>
+              userStore.setFormFields("password", e.target.value)
+            }
+          />
+        </div>
+        {userStore.loading && <Spin spinning />}
+        <div>
+          <button onClick={async () => await userStore.login()}>login</button>
+        </div>
       </div>
     );
   }
 }
 
-export default inject("rootStore")(observer(Test));
+export default Test;

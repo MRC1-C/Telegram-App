@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "antd": "^4.16.13",
+    "axios": "^0.21.4",
     "customize-cra": "^1.0.0",
     "mobx": "^6.3.3",
     "mobx-react": "^7.2.0",
@@ -32,7 +33,6 @@
       "react-app/jest"
     ]
   },
-
   "devDependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.12.13"
   },
