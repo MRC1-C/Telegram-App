@@ -1,13 +1,10 @@
 import { Component } from "react";
-import Test from "./container/test";
-import Panel from "./container/panel";
-
+import LoginAndRegister from './components/LoginAndRegister'
 class App extends Component {
   render() {
     return (
       <div>
-        <Test />
-        <Panel />
+        <LoginAndRegister />
       </div>
     );
   }

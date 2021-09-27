@@ -1,10 +1,8 @@
 import { message } from "antd";
 import { observable, action, makeObservable, runInAction } from "mobx";
-import { postRequest } from "../helper/api";
+import userApi from "../service/UserService";
 
 class UserStore {
-  @observable
-  counter = 0;
 
   @observable
   loading = false;
@@ -25,25 +23,15 @@ class UserStore {
     this.parentStore = parentStore;
   }
   @action
-  incr() {
-    this.counter++;
+  setFormFields(value) {
+    this.formData = value;
   }
-  @action
-  setFormFields(fields, value) {
-    this.formData[fields] = value;
-  }
-  @action
-  decr() {
-    this.counter--;
-  }
-
   @action
   async login() {
     this.loading = true;
     let data;
     try {
-      data = await postRequest(
-        "http://localhost:8000/auth/login",
+      data = await userApi.authLogin(
         this.formData
       );
       if (data) {
@@ -55,9 +43,25 @@ class UserStore {
     } catch (error) {
       this.loading = false;
       this.error = "error";
-      message.error("Error");
+      message.error("Tài khoản mật khẩu không chính xác");
     }
   }
+
+  @action
+  async register(){
+    let data;
+    try {
+      data = await userApi.authRegister(
+        this.formData
+      );
+      if(data){
+        this.token = data.access_token
+      }
+    } catch (error) {
+      message.error(error)
+    }
+  }
+  
 }
 
 export default UserStore;
