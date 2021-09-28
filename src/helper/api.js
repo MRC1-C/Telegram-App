@@ -1,26 +1,18 @@
-import axios from 'axios';
+import axios from "axios";
 
-const axiosClient =  axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-  headers: {
-  'content-type': 'application/json',
-  },
-});
-
-axiosClient.interceptors.request.use(async (config) =>{
-  //config.headers.authorization = token;
-  return config;
-});
-
-axiosClient.interceptors.response.use((response) => {
-  if (response && response.data) {
-    return response.data;
+export function generateRequestHeader() {
+  return {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    },
+  };
+}
+export async function postRequest(url, body, generateRequestHeader) {
+  try {
+    let resposne = await axios.post(url, body);
+    return resposne.data;
+  } catch (error) {
+    throw error;
   }
-  return response;
-  }, (error) => {
-  // Handle errors
-  throw error;
-});
-
-
-export default axiosClient;
+}

@@ -1,11 +1,14 @@
 import { message } from "antd";
 import { observable, action, makeObservable, runInAction } from "mobx";
-import userApi from "../service/UserService";
+import { postRequest } from "../helper/api";
 
 class UserStore {
 
   @observable
   loading = false;
+
+  @observable
+  isLogin = false;
 
   @observable
   token = null;
@@ -31,37 +34,48 @@ class UserStore {
     this.loading = true;
     let data;
     try {
-      data = await userApi.authLogin(
+      data = await postRequest(
+        process.env.REACT_APP_API_URL + "/auth/login",
         this.formData
       );
       if (data) {
         runInAction(() => {
           this.token = data?.access_token;
           this.loading = false;
+          this.isLogin = true;
         });
+        localStorage.setItem('accessToken', this.token)
       }
     } catch (error) {
-      this.loading = false;
       this.error = "error";
       message.error("Tài khoản mật khẩu không chính xác");
     }
   }
 
   @action
-  async register(){
+  async register() {
+    //this.loading = true;
     let data;
     try {
-      data = await userApi.authRegister(
+      data = await postRequest(
+        process.env.REACT_APP_API_URL + "/auth/register",
         this.formData
       );
-      if(data){
-        this.token = data.access_token
+      if (data) {
+        runInAction(() => {
+          this.token = data?.access_token;
+          this.loading = false;
+          this.isLogin = true;
+        });
+        localStorage.setItem('accessToken', this.token)
       }
     } catch (error) {
-      message.error(error)
+      this.error = "error";
+      message.error("Error");
     }
   }
-  
 }
+
+  
 
 export default UserStore;

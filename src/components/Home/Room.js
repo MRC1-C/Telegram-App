@@ -1,14 +1,33 @@
-import { Card } from 'antd'
-import React, { PureComponent } from 'react'
-import { PlusCircleOutlined, ForwardOutlined, LogoutOutlined } from '@ant-design/icons'
+import { Button, Card, Icon } from 'antd'
+import React, {Component } from 'react'
+import styled from 'styled-components'
+
+const ButtonStyled = styled(Button)`
+    border: none;
+    background-color: #fafafa;
+    border-radius: 2px;
+    &:hover{
+        background-color: #1890ff;
+        i {
+            color: white;
+        }
+    }
+`;
+
+const CardStyled = styled(Card)`
+    .ant-card-actions li {
+        margin: 0;
+    }
+`;
 
 const { Meta } = Card
 
-export default class Room extends PureComponent {
+export default class Room extends Component {
     render() {
         return (
-            <Card
-                style={{ width: '300px', height: '300px' , marginBottom: '20px' }}
+            <CardStyled
+                hoverable
+                style={{ width: '300px' }}
                 cover={
                     <img
                         alt="example"
@@ -16,15 +35,15 @@ export default class Room extends PureComponent {
                     />
                 }
                 actions={[
-                    <PlusCircleOutlined key="add" href='https://www.youtube.com/watch?v=G6mL3t3QzLw' />,
-                    <ForwardOutlined key="access" />,
-                    <LogoutOutlined key="Logout" />,
+                    <ButtonStyled block><Icon type="plus-circle" /></ButtonStyled>,
+                    <ButtonStyled block><Icon type="forward" /></ButtonStyled>,
+                    <ButtonStyled block><Icon type="logout" /></ButtonStyled>
                 ]}
              >
                 <Meta
                 title="Card title"
                 />
-            </Card>
+            </CardStyled>
             )
     }
 }

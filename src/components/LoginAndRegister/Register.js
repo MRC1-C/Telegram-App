@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import { Row, Col, Form, Input, Button  } from 'antd'
-import styled from 'styled-components'
 import { inject, observer } from "mobx-react"
-const ButtonStyled = styled(Button)`
-    width: 100%;
-`;
 
 @inject("rootStore")
 @observer
 class Register extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            confirmDirty: false,
+        };
     }
     handleButtonRegister = () => {
         let user = {
@@ -19,12 +18,28 @@ class Register extends Component {
         }
         this.props.rootStore.userStore.setFormFields(user)
         this.props.rootStore.userStore.register()
-        console.log(this.props.rootStore.userStore.token)
     }
 
     handleButtonLogin = () => {
         this.props.setLogin();
     }
+
+    compareToFirstPassword = (rule, value, callback) => {
+        const { form } = this.props;
+        if (value && value !== form.getFieldValue('password')) {
+          callback('Hai mật khẩu không khớp');
+        } else {
+          callback();
+        }
+      };
+    
+      validateToNextPassword = (rule, value, callback) => {
+        const { form } = this.props;
+        if (value && this.state.confirmDirty) {
+          form.validateFields(['checkpassword'], { force: true });
+        }
+        callback();
+      };
 
     render() {
         const {
@@ -54,9 +69,16 @@ class Register extends Component {
                     </Form.Item>
                     <Form.Item hasFeedback>
                         {getFieldDecorator('password', {
-                            rules: [{ required: true, message: 'Hãy nhập mật khẩu' }],
+                            rules: [{ 
+                                        required: true, 
+                                        message: 'Hãy nhập mật khẩu' 
+                                    },
+                                    {
+                                        validator: this.validateToNextPassword,
+                                    },
+                                    ],
                         })(
-                            <Input type='password' placeholder='Nhập mật khẩu' />
+                            <Input.Password placeholder='Nhập mật khẩu' />
                         )}
                     </Form.Item>
                     <Form.Item hasFeedback>
@@ -65,16 +87,19 @@ class Register extends Component {
                                         required: true, 
                                         message: 'Hãy xác nhận mật khẩu' 
                                     },
+                                    {
+                                        validator: this.compareToFirstPassword,
+                                    },
                                     ],
                         })(
-                            <Input type='password' placeholder='Xác nhận mật khẩu' />
+                            <Input.Password placeholder='Xác nhận mật khẩu' />
                         )}
                     </Form.Item>
                     <Form.Item>
-                        <ButtonStyled htmlType='submit' type='primary' onClick={this.handleButtonRegister}>Đăng ký</ButtonStyled>
+                        <Button htmlType='submit' type='primary' onClick={this.handleButtonRegister} block>Đăng ký</Button>
                     </Form.Item>
                     <Form.Item>
-                        <ButtonStyled type='primary' onClick={this.handleButtonLogin}>Đăng nhập</ButtonStyled>
+                        <Button type='primary' onClick={this.handleButtonLogin} block>Đăng nhập</Button>
                     </Form.Item>
                 </Form>
             </Col>

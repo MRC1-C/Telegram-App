@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
 import { Row, Col, Form, Input, Button  } from 'antd'
-import styled from 'styled-components'
 import { inject, observer } from "mobx-react"
-
-const ButtonStyled = styled(Button)`
-    width: 100%;
-`;
+import { withRouter } from 'react-router';
 @inject("rootStore")
 @observer
 class Login extends Component {
@@ -17,7 +13,9 @@ class Login extends Component {
         let user = this.props.form.getFieldsValue()
         this.props.rootStore.userStore.setFormFields(user)
         this.props.rootStore.userStore.login()
-        console.log(this.props.rootStore.userStore.token)
+        if(this.props.rootStore.userStore.isLogin){
+            this.props.history.push('./')
+        }
     }
 
     handleButtonRegister = () => {
@@ -54,14 +52,14 @@ class Login extends Component {
                         {getFieldDecorator('password', {
                             rules: [{ required: true, message: 'Hãy nhập mật khẩu' }],
                         })(
-                            <Input type='password' placeholder='Nhập mật khẩu' />
+                            <Input.Password placeholder='Nhập mật khẩu' />
                         )}
                     </Form.Item>
                     <Form.Item>
-                        <ButtonStyled htmlType='submit' type='primary' onClick={this.handleButtonLogin}>Đăng nhập</ButtonStyled>
+                        <Button htmlType='submit' type='primary' onClick={this.handleButtonLogin} block>Đăng nhập</Button>
                     </Form.Item>
                     <Form.Item>
-                        <ButtonStyled type='primary' onClick={this.handleButtonRegister} block>Đăng ký</ButtonStyled>
+                        <Button type='primary' onClick={this.handleButtonRegister} block>Đăng ký</Button>
                     </Form.Item>
                 </Form>
             </Col>
@@ -71,4 +69,4 @@ class Login extends Component {
     }
 }
 
-export default Form.create()(Login);
+export default withRouter(Form.create()(Login));
