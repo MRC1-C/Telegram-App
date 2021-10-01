@@ -1,4 +1,5 @@
-import { observable, makeObservable } from "mobx";
+import { observable, makeObservable, action } from "mobx";
+import { getRequest } from "../helper/api";
 
 class UserStore {
 
@@ -8,6 +9,19 @@ class UserStore {
   constructor(parentStore) {
     makeObservable(this);
     this.parentStore = parentStore;
+  }
+  @action
+  async product(){
+    try {
+      let data = getRequest(
+        process.env.REACT_APP_API_AUTH_URL + '/products'
+      )
+      if(data){
+        return data;
+      }
+    } catch (error) {
+      
+    }
   }
 }
 

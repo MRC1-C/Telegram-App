@@ -5,18 +5,6 @@ import { postRequest } from "../helper/api";
 class UserStore {
 
   @observable
-  loading = false;
-
-  @observable
-  isLogin = false;
-
-  @observable
-  token = null;
-
-  @observable
-  error = null;
-
-  @observable
   formData = {
     email: "",
     password: "",
@@ -31,47 +19,36 @@ class UserStore {
   }
   @action
   async login() {
-    this.loading = true;
-    let data;
     try {
-      data = await postRequest(
-        process.env.REACT_APP_API_URL + "/auth/login",
+      let data = await postRequest(
+        process.env.REACT_APP_API_AUTH_URL + "/auth/login",
         this.formData
       );
       if (data) {
-        runInAction(() => {
-          this.token = data?.access_token;
-          this.loading = false;
-          this.isLogin = true;
-        });
-        localStorage.setItem('accessToken', this.token)
+        localStorage.setItem('accessToken', data?.access_token)
+        this.parentStore.history.push('/')
       }
     } catch (error) {
-      this.error = "error";
       message.error("Tài khoản mật khẩu không chính xác");
     }
   }
 
   @action
   async register() {
-    //this.loading = true;
-    let data;
     try {
-      data = await postRequest(
-        process.env.REACT_APP_API_URL + "/auth/register",
+      let data = await postRequest(
+        process.env.REACT_APP_API_AUTH_URL + "/auth/register",
         this.formData
       );
       if (data) {
         runInAction(() => {
-          this.token = data?.access_token;
           this.loading = false;
-          this.isLogin = true;
         });
-        localStorage.setItem('accessToken', this.token)
+        localStorage.setItem('accessToken', data?.access_token)
+        this.parentStore.history.push('/')
       }
     } catch (error) {
-      this.error = "error";
-      message.error("Error");
+      message.error("Đăng ký không thành công");
     }
   }
 }

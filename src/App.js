@@ -1,16 +1,15 @@
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Home from './components/Home';
+import { Switch, Route } from 'react-router-dom'
 import LoginAndRegister from './components/LoginAndRegister'
-import CreateTeam from './components/Modal/CreateTeam';
+import Basic from './components/Demo/Basic';
+
 function App() {
   return (
-    <Router>
+      <>
         <Switch>
           <Route component={LoginAndRegister} path='/login'/>
-          <Route component={Home} path='/' />
+          <Route component={Basic} path='/' />
         </Switch>
-        <CreateTeam />
-    </Router>
+      </>
   );
 }
 

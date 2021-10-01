@@ -5,12 +5,15 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "mobx-react";
 import RootStore from "./store/RootStore";
+import { Router } from "react-router";
 
 let rootStore = new RootStore();
 ReactDOM.render(
   <React.StrictMode>
     <Provider rootStore={rootStore}>
-      <App />
+      <Router history={rootStore.history}>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

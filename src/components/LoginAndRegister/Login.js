@@ -1,20 +1,15 @@
 import React, { Component } from 'react'
 import { Row, Col, Form, Input, Button  } from 'antd'
 import { inject, observer } from "mobx-react"
-import { withRouter } from 'react-router';
 @inject("rootStore")
 @observer
 class Login extends Component {
-    constructor(props) {
-        super(props);
-    }
-
+    
     handleButtonLogin = () => {
         let user = this.props.form.getFieldsValue()
-        this.props.rootStore.userStore.setFormFields(user)
-        this.props.rootStore.userStore.login()
-        if(this.props.rootStore.userStore.isLogin){
-            this.props.history.push('./')
+        if(user.email){
+            this.props.rootStore.userStore.setFormFields(user)
+            this.props.rootStore.userStore.login()
         }
     }
 
@@ -69,4 +64,4 @@ class Login extends Component {
     }
 }
 
-export default withRouter(Form.create()(Login));
+export default Form.create()(Login);

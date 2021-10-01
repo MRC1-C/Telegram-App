@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Form, Input, Button  } from 'antd'
 import { inject, observer } from "mobx-react"
-
 @inject("rootStore")
 @observer
 class Register extends Component {

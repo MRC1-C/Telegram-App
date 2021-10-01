@@ -1,5 +1,40 @@
 import axios from "axios";
 
+export async function postRequest(url, body) {
+  try {
+    let resposne = await axios.post(url, body, generateRequestHeader());
+    return resposne.data;
+  } catch (error) {
+    throw error;
+  }
+}
+export async function getRequest(url) {
+  try {
+    let resposne = await axios.get(url, generateRequestHeader());
+    return resposne.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function deleteRequest(url) {
+  try {
+    let resposne = await axios.delete(url, generateRequestHeader());
+    return resposne.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export async function patchRequest(url, body){
+  try {
+    let resposne = await axios.patch(url, body, generateRequestHeader());
+    return resposne.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export function generateRequestHeader() {
   return {
     headers: {
@@ -7,12 +42,4 @@ export function generateRequestHeader() {
       Authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
   };
-}
-export async function postRequest(url, body, generateRequestHeader) {
-  try {
-    let resposne = await axios.post(url, body);
-    return resposne.data;
-  } catch (error) {
-    throw error;
-  }
 }
