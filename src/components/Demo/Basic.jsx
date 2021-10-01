@@ -1,25 +1,16 @@
-import {
-  Button,
-  Input,
-  Modal,
-  Table,
-  InputNumber,
-  Form,
-  Popconfirm,
-} from "antd";
+import { Button, Modal, Table } from "antd";
 import React, { Component } from "react";
-import { inject, observer } from "mobx-react";
 
 class Basic extends Component {
-  constructor(props) {
+  constructor(currentStore, props) {
     super(props);
+    this.currentStore = currentStore;
     this.actionColumn = {
       key: "action",
       render: (text, record) => {
-        const editable = this.isEditing(record.id);
         return (
           <div>
-            <Button onClick={() => this.currentStore.setSelectedItem(record)}>
+          <Button onClick={() => this.currentStore.setSelectedItem(record)}>
               Sửa
             </Button>
             <Button>Xóa</Button>
@@ -42,14 +33,23 @@ class Basic extends Component {
   }
 
   async componentDidMount() {
-    
+    await this.currentStore.getData();
   }
+  renderDetailData() {
+    return <div>
 
+    </div>
+  }
   render() {
-    const data = this.currentStore?.data;
+    const data = this.currentStore.data;
     const columns = [...this.columns, this.actionColumn];
     return (
       <div className="base-wrap-management w-full">
+        <Modal
+          visible={this.currentStore.selectedItem ? true : false}
+        >
+          {this.renderDetailData()}
+        </Modal>
         <div className="m-16">
           <Button>Create New</Button>
         </div>
@@ -66,4 +66,4 @@ class Basic extends Component {
   }
 }
 
-export default Form.create()(Basic);
+export default Basic;

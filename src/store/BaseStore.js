@@ -6,7 +6,7 @@ import {
   patchRequest,
 } from "../helper/api";
 
-class DemoStore {
+class BaseStore {
   @observable
   name = "";
   @observable
@@ -18,6 +18,7 @@ class DemoStore {
   @observable
   selectedItem = null;
   constructor(parentStore) {
+    makeObservable(this);
     this.parentStore = parentStore;
   }
   @action setSelectedItem(item) {
@@ -68,4 +69,4 @@ class DemoStore {
   }
 }
 
-export default DemoStore;
+export default BaseStore;

@@ -1,15 +1,15 @@
 import axios from "axios";
 const UNAUTHENTICATE_CODE = 401
 
-handleErrorCode=(error)=>{
-switch(error.response.status)
-{
-  case UNAUTHENTICATE_CODE:{
-    // localStorage.
-    window.location.href = "/login"
-  }
-}
-}
+// handleErrorCode=(error)=>{
+// switch(error.response.status)
+// {
+//   case UNAUTHENTICATE_CODE:{
+//     // localStorage.
+//     window.location.href = "/login"
+//   }
+// }
+// }
 
 
 export async function postRequest(url, body) {
@@ -28,7 +28,7 @@ export async function getRequest(url) {
     );
     return resposne.data;
   } catch (error) {
-    handleErrorCode(error)
+    // handleErrorCode(error)
     throw error;
   }
 }
