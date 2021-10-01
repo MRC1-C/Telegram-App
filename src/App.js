@@ -1,15 +1,15 @@
-import { Switch, Route } from 'react-router-dom'
-import LoginAndRegister from './components/LoginAndRegister'
-import Basic from './components/Demo/Basic';
+import { Switch, Route } from "react-router-dom";
+import LoginAndRegister from "./components/LoginAndRegister";
+import Product from "./components/Home/Product";
 
 function App() {
   return (
-      <>
-        <Switch>
-          <Route component={LoginAndRegister} path='/login'/>
-          <Route component={Basic} path='/' />
-        </Switch>
-      </>
+    <>
+      <Switch>
+        <Route component={LoginAndRegister} path="/login" />
+        <Route component={Product} path="/" />
+      </Switch>
+    </>
   );
 }
 

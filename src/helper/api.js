@@ -1,4 +1,16 @@
 import axios from "axios";
+const UNAUTHENTICATE_CODE = 401
+
+handleErrorCode=(error)=>{
+switch(error.response.status)
+{
+  case UNAUTHENTICATE_CODE:{
+    // localStorage.
+    window.location.href = "/login"
+  }
+}
+}
+
 
 export async function postRequest(url, body) {
   try {
@@ -10,9 +22,13 @@ export async function postRequest(url, body) {
 }
 export async function getRequest(url) {
   try {
-    let resposne = await axios.get(url, generateRequestHeader());
+    let resposne = await axios.get(
+      process.env.REACT_APP_API_AUTH_URL + url,
+      generateRequestHeader()
+    );
     return resposne.data;
   } catch (error) {
+    handleErrorCode(error)
     throw error;
   }
 }
@@ -26,7 +42,7 @@ export async function deleteRequest(url) {
   }
 }
 
-export async function patchRequest(url, body){
+export async function patchRequest(url, body) {
   try {
     let resposne = await axios.patch(url, body, generateRequestHeader());
     return resposne.data;
