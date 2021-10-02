@@ -1,16 +1,54 @@
 import { inject, observer } from "mobx-react";
 import Basic from "../../Demo/Basic";
-import ProducDetailPopup from "./ProducDetailPopup";
+import ProducDetailPopup from "./ProducDetailPopup/ProductDetaiCreate";
 
 @inject("rootStore")
 @observer
 class Product extends Basic {
   constructor(props) {
-    super(props.rootStore.demoStore, props);
+    super(props.rootStore.productStore, props);
+    this.columns = [
+      {
+        title: "Id",
+        dataIndex: "id",
+        editable: true,
+      },
+      {
+        title: "Name",
+        dataIndex: "name",
+        editable: true,
+      },
+      {
+        title: "Cost",
+        dataIndex: "cost",
+        editable: true,
+      },
+      {
+        title: "Quantity",
+        dataIndex: "quantity",
+        editable: true,
+      },
+      {
+        title: "LocationId",
+        dataIndex: "locationId",
+        editable: true,
+      },
+      {
+        title: "FamilyId",
+        dataIndex: "familyId",
+        editable: true,
+      },
+    ];
   }
-  renderDetailData() {
+
+  renderDetaiCreate() {
     return <ProducDetailPopup currentStore={this.currentStore} />;
   }
+
+  renderDetaiEdit() {
+    return <ProducDetailPopup currentStore={this.currentStore} />;
+  }
+
   render() {
     return super.render();
   }

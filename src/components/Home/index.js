@@ -1,9 +1,13 @@
-import { Layout, Menu, Input, Button, Avatar, Icon, Typography, Spin } from 'antd';
+import { Layout, Menu, Input, Button, Avatar, Icon, Typography } from 'antd';
 import { Component } from 'react';
+import { Route, Switch } from 'react-router';
 import styled from 'styled-components'
+import Product from './Product';
+import UserInfo from './User';
 const { Header, Content, Sider } = Layout;
 
 const AvatarIcon = props => <Icon component={Avatar} {...props} />;
+
 
 const HeaderStyled = styled(Header)`
     display: flex;
@@ -52,12 +56,12 @@ class Home extends Component {
 
   handleLogout = () => {
       localStorage.clear();
-      this.props.rootStore.history.push('/login')
+      this.props.history.push('/login')
   }
 
   async componentDidMount (){
     if(!localStorage.getItem('accessToken')){
-      this.props.rootStore.history.push('/login')
+      this.props.history.push('/login')
     }
   }
   
@@ -102,8 +106,12 @@ class Home extends Component {
               </div>
           </HeaderStyled>
           <ContentStyled>
-              <RoomListStyled>
-                </RoomListStyled> 
+              <Button onClick={()=>this.props.history.push('/products')}>Products</Button>
+              <Button onClick={()=>this.props.history.push('/userinfo')}>User</Button>
+              <Switch>
+                <Route component={Product} path='/products' />
+                <Route component={UserInfo} path='/userinfo' />
+              </Switch>
           </ContentStyled>
         </Layout>
       </Layout>

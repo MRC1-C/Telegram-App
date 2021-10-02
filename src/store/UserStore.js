@@ -26,7 +26,7 @@ class UserStore {
       );
       if (data) {
         localStorage.setItem('accessToken', data?.access_token)
-        this.parentStore.history.push('/')
+        this.parentStore.history.push('/products')
       }
     } catch (error) {
       message.error("Tài khoản mật khẩu không chính xác");
@@ -45,7 +45,7 @@ class UserStore {
           this.loading = false;
         });
         localStorage.setItem('accessToken', data?.access_token)
-        this.parentStore.history.push('/')
+        this.parentStore.history.push('/products')
       }
     } catch (error) {
       message.error("Đăng ký không thành công");

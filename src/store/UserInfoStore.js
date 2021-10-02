@@ -6,27 +6,41 @@ import {
   patchRequest,
 } from "../helper/api";
 
-class DemoStore {
-  @observable
-  name = "";
-  @observable
-  id = "";
-
+class UserInfoStore {
   @observable
   data = [];
 
   @observable
-  selectedItem = null;
+  id = null;
+
+  @observable
+  form = {
+      name: null,
+  };
+
   constructor(parentStore) {
+    makeObservable(this)
     this.parentStore = parentStore;
   }
-  @action setSelectedItem(item) {
-    this.selectedItem = item;
+
+  @action
+  setId(value) {
+    this.id = value;
+  }
+
+  @action
+  setFormEdit(value) {
+    this.form = value;
+  }
+
+  @action
+  setForm(fields, value) {
+    this.form[fields] = value;
   }
   @action
   async getData() {
     try {
-      let data = await getRequest("/products");
+      let data = await getRequest("/locations");
       if (data) {
         runInAction(() => {
           this.data = data;
@@ -37,9 +51,7 @@ class DemoStore {
   @action
   async create() {
     try {
-      await postRequest(process.env.REACT_APP_API_AUTH_URL + "/products", {
-        name: this.name,
-      });
+      await postRequest(process.env.REACT_APP_API_AUTH_URL + "/locations", this.form);
     } catch (error) {
       console.log(error);
     }
@@ -48,7 +60,7 @@ class DemoStore {
   async delete() {
     try {
       await deleteRequest(
-        process.env.REACT_APP_API_AUTH_URL + "/products/" + this.id
+        process.env.REACT_APP_API_AUTH_URL + "/locations/" + this.id
       );
     } catch (error) {
       console.log(error);
@@ -59,8 +71,8 @@ class DemoStore {
   async edit() {
     try {
       await patchRequest(
-        process.env.REACT_APP_API_AUTH_URL + "/products/" + this.id,
-        this.dataEdit
+        process.env.REACT_APP_API_AUTH_URL + "/locations/" + this.id,
+        this.form
       );
     } catch (error) {
       console.log(error);
@@ -68,4 +80,4 @@ class DemoStore {
   }
 }
 
-export default DemoStore;
+export default UserInfoStore;
