@@ -9,13 +9,11 @@ import { Router } from "react-router";
 
 let rootStore = new RootStore();
 ReactDOM.render(
-  <React.StrictMode>
     <Provider rootStore={rootStore}>
       <Router history={rootStore.history}>
         <App />
       </Router>
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
   document.getElementById("root")
 );
 

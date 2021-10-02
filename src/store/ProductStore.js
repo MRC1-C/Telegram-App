@@ -40,6 +40,7 @@ class ProductStore {
 
   @action
   setForm(fields, value) {
+    console.log(value)
     this.form[fields] = value;
   }
   @action

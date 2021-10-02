@@ -8,6 +8,7 @@ class Basic extends Component {
       visibleCreate: false,
       visibleEdit: false,
     };
+    this.rowKey="id"
     this.currentStore = currentStore;
     this.actionColumn = {
       key: "action",
@@ -101,6 +102,7 @@ class Basic extends Component {
             bordered
             dataSource={data}
             columns={columns}
+            rowKey={this.rowKey}
             rowClassName="editable-row"
           />
         </div>
