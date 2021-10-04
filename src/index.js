@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "mobx-react";
 import RootStore from "./store/RootStore";
 import { Router } from "react-router";
+// import 'leaflet/dist/leaflet.css';
 
 let rootStore = new RootStore();
 ReactDOM.render(

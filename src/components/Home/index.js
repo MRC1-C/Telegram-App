@@ -108,9 +108,9 @@ class Home extends Component {
               </div>
           </HeaderStyled>
           <ContentStyled>
-              <Tabs defaultActiveKey="1" type='line' onChange={(key)=>this.props.history.push(key)}>
+              <Tabs defaultActiveKey="Tab 2" type='line' onChange={(key)=>this.props.history.push(key)}>
                 <TabPane tab="Tab 1" key="/products" />
-                <TabPane tab="Tab 2" key="/userinfo" />
+                <TabPane tab="Tab 3" key="/userinfo" />
                 <TabPane tab="Tab 2" key="/map" />
               </Tabs>
               <Switch>
