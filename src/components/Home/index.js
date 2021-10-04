@@ -1,11 +1,12 @@
-import { Layout, Menu, Input, Button, Avatar, Icon, Typography } from 'antd';
+import { Layout, Menu, Input, Button, Avatar, Icon, Typography, Tabs } from 'antd';
 import { Component } from 'react';
 import { Route, Switch } from 'react-router';
 import styled from 'styled-components'
+import Map from '../Map';
 import Product from './Product';
 import UserInfo from './User';
 const { Header, Content, Sider } = Layout;
-
+const { TabPane } = Tabs;
 const AvatarIcon = props => <Icon component={Avatar} {...props} />;
 
 
@@ -27,6 +28,7 @@ const ContentStyled = styled(Content)`
     height: calc(100vh - 80px);
     overflow-y: auto; 
     padding: 10px;
+    background-color: white;
 `
 
 const RoomListStyled = styled.div`
@@ -106,11 +108,15 @@ class Home extends Component {
               </div>
           </HeaderStyled>
           <ContentStyled>
-              <Button onClick={()=>this.props.history.push('/products')}>Products</Button>
-              <Button onClick={()=>this.props.history.push('/userinfo')}>User</Button>
+              <Tabs defaultActiveKey="1" type='line' onChange={(key)=>this.props.history.push(key)}>
+                <TabPane tab="Tab 1" key="/products" />
+                <TabPane tab="Tab 2" key="/userinfo" />
+                <TabPane tab="Tab 2" key="/map" />
+              </Tabs>
               <Switch>
                 <Route component={Product} path='/products' />
                 <Route component={UserInfo} path='/userinfo' />
+                <Route component={Map} path='/map' />
               </Switch>
           </ContentStyled>
         </Layout>

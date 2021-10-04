@@ -3,7 +3,7 @@ import axios from "axios";
 
 export async function postRequest(url, body) {
   try {
-    let resposne = await axios.post(url, body, generateRequestHeader());
+    let resposne = await axios.post(process.env.REACT_APP_API_AUTH_URL + url, body, generateRequestHeader());
     return resposne.data;
   } catch (error) {
     throw error;
@@ -24,7 +24,7 @@ export async function getRequest(url) {
 
 export async function deleteRequest(url) {
   try {
-    let resposne = await axios.delete(url, generateRequestHeader());
+    let resposne = await axios.delete(process.env.REACT_APP_API_AUTH_URL + url,generateRequestHeader());
     return resposne.data;
   } catch (error) {
     throw error;
@@ -33,7 +33,7 @@ export async function deleteRequest(url) {
 
 export async function patchRequest(url, body) {
   try {
-    let resposne = await axios.patch(url, body, generateRequestHeader());
+    let resposne = await axios.patch(process.env.REACT_APP_API_AUTH_URL + url, body, generateRequestHeader());
     return resposne.data;
   } catch (error) {
     throw error;

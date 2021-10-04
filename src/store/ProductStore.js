@@ -11,16 +11,13 @@ class ProductStore {
   data = [];
 
   @observable
-  id = null;
+  id = "";
 
   @observable
   form = {
-      name: null,
-      cost: null,
-      quantity: null,
-      locationId: null,
-      familyId: null
-
+      name: "",
+      cost: "",
+      quantity: ""
   };
 
   constructor(parentStore) {
@@ -40,7 +37,6 @@ class ProductStore {
 
   @action
   setForm(fields, value) {
-    console.log(value)
     this.form[fields] = value;
   }
   @action
@@ -57,7 +53,7 @@ class ProductStore {
   @action
   async create() {
     try {
-      await postRequest(process.env.REACT_APP_API_AUTH_URL + "/products", this.form);
+      await postRequest("/products", this.form);
     } catch (error) {
       console.log(error);
     }
@@ -66,18 +62,17 @@ class ProductStore {
   async delete() {
     try {
       await deleteRequest(
-        process.env.REACT_APP_API_AUTH_URL + "/products/" + this.id
+        "/products/" + this.id
       );
     } catch (error) {
       console.log(error);
     }
-    this.id = "";
   }
   @action
   async edit() {
     try {
       await patchRequest(
-        process.env.REACT_APP_API_AUTH_URL + "/products/" + this.id,
+        "/products/" + this.id,
         this.form
       );
     } catch (error) {

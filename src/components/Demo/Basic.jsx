@@ -1,4 +1,4 @@
-import { Button, Modal, Table } from "antd";
+import { Button, Modal, Table, Icon } from "antd";
 import React, { Component } from "react";
 
 class Basic extends Component {
@@ -8,13 +8,14 @@ class Basic extends Component {
       visibleCreate: false,
       visibleEdit: false,
     };
-    this.rowKey="id"
     this.currentStore = currentStore;
     this.actionColumn = {
       key: "action",
       render: (text, record) => {
         return (
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div
+            style={{ display: "flex", gap: "10px", justifyContent: "center" }}
+          >
             <Button type="primary" onClick={() => this.handleEdit(record)}>
               Sửa
             </Button>
@@ -61,17 +62,10 @@ class Basic extends Component {
     await this.currentStore.getData();
   }
   async handleOKCreate() {
-    this.setState({
-      visibleCreate: false,
-    });
     await this.currentStore.create();
     await this.currentStore.getData();
-    this.currentStore.setFormEdit({
-      name: "",
-      cost: "",
-      quantity: "",
-      locationId: "",
-      familyId: "",
+    this.setState({
+      visibleCreate: false,
     });
   }
 
@@ -87,23 +81,30 @@ class Basic extends Component {
     const data = this.currentStore.data;
     const columns = [...this.columns, this.actionColumn];
     return (
-      <div className="base-wrap-management w-full">
+      <div className="w-full">
         <div className="m-16">
           <Button
             onClick={() => {
               this.setState({ visibleCreate: true });
+              this.currentStore.setFormEdit({
+                name: "",
+                cost: "",
+                quantity: "",
+              });
             }}
+            type="primary"
           >
-            Create New
+            Tạo mới <Icon type="plus-circle" />
           </Button>
         </div>
         <div>
           <Table
+            size="small"
+            rowKey="id"
             bordered
             dataSource={data}
             columns={columns}
-            rowKey={this.rowKey}
-            rowClassName="editable-row"
+            tableLayout="fixed"
           />
         </div>
         <Modal
@@ -120,7 +121,11 @@ class Basic extends Component {
           onOk={() => this.handleOKCreate()}
           onCancel={() => {
             this.setState({ visibleCreate: false });
-            this.currentStore.setFormEdit({});
+            this.currentStore.setFormEdit({
+              name: "",
+              cost: "",
+              quantity: "",
+            });
           }}
         >
           {this.renderDetaiCreate()}

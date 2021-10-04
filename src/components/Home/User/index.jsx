@@ -9,11 +9,13 @@ class UserInfo extends Basic {
     super(props.rootStore.userInfoStore, props);
     this.columns = [
       {
+        key: "id",
         title: "Id",
         dataIndex: "id",
         editable: true,
       },
       {
+        key: "name",
         title: "Name",
         dataIndex: "name",
         editable: true,

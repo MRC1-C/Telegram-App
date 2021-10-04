@@ -9,39 +9,23 @@ class Product extends Basic {
     super(props.rootStore.productStore, props);
     this.columns = [
       {
-        key: "id",
         title: "Id",
         dataIndex: "id",
         editable: true,
       },
       {
-        key: "name",
         title: "Name",
         dataIndex: "name",
         editable: true,
       },
       {
-        key: "cost",
         title: "Cost",
         dataIndex: "cost",
         editable: true,
       },
       {
-        key: "quantity",
         title: "Quantity",
         dataIndex: "quantity",
-        editable: true,
-      },
-      {
-        key: "locationId",
-        title: "LocationId",
-        dataIndex: "locationId",
-        editable: true,
-      },
-      {
-        key: "familyId",
-        title: "FamilyId",
-        dataIndex: "familyId",
         editable: true,
       },
     ];

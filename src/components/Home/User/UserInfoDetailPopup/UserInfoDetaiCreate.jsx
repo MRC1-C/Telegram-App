@@ -1,5 +1,9 @@
 import { Input, Form, Empty } from "antd";
 import React from "react";
+import { observer, inject } from "mobx-react";
+
+@inject("rootStore")
+@observer
 class UserInfoDetailCreate extends React.Component {
   render() {
     const { currentStore } = this.props;
@@ -7,7 +11,7 @@ class UserInfoDetailCreate extends React.Component {
       <Form>
         <Form.Item label="Name">
           <Input
-            defaultValue={currentStore.form.name}
+            value={currentStore.form.name}
             type="text"
             onChange={(e) => currentStore.setForm("name", e.target.value)}
           />
