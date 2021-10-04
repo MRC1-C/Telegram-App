@@ -21,7 +21,7 @@ class UserStore {
   async login() {
     try {
       let data = await postRequest(
-        process.env.REACT_APP_API_AUTH_URL + "/auth/login",
+        "/auth/login",
         this.formData
       );
       if (data) {
@@ -37,7 +37,7 @@ class UserStore {
   async register() {
     try {
       let data = await postRequest(
-        process.env.REACT_APP_API_AUTH_URL + "/auth/register",
+        "/auth/register",
         this.formData
       );
       if (data) {

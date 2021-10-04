@@ -15,7 +15,7 @@ class UserInfoStore {
 
   @observable
   form = {
-      name: null,
+      name: "",
   };
 
   constructor(parentStore) {
@@ -51,7 +51,7 @@ class UserInfoStore {
   @action
   async create() {
     try {
-      await postRequest(process.env.REACT_APP_API_AUTH_URL + "/locations", this.form);
+      await postRequest("/locations", this.form);
     } catch (error) {
       console.log(error);
     }
@@ -60,7 +60,7 @@ class UserInfoStore {
   async delete() {
     try {
       await deleteRequest(
-        process.env.REACT_APP_API_AUTH_URL + "/locations/" + this.id
+          "/locations/" + this.id
       );
     } catch (error) {
       console.log(error);
@@ -71,7 +71,7 @@ class UserInfoStore {
   async edit() {
     try {
       await patchRequest(
-        process.env.REACT_APP_API_AUTH_URL + "/locations/" + this.id,
+        "/locations/" + this.id,
         this.form
       );
     } catch (error) {
