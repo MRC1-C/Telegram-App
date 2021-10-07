@@ -13,6 +13,21 @@ body {
 .m-16 {
   margin: 16px;
 }
+.flex {
+  display: flex;
+}
+.gap-10 {
+  gap: 10px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.bg-red {
+  background-color: #ff3945;
+}
+.border-0 {
+  border: 0;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

@@ -1,6 +1,13 @@
-import { Button, Modal, Table, Icon } from "antd";
+import { Button, Modal, Table, Icon, Popconfirm, Popover } from "antd";
 import React, { Component } from "react";
+import styled from "styled-components";
 
+const ButtonDeleteStyled = styled(Button)`
+  &:hover {
+    background-color: #ff3945;
+    opacity: 0.8;
+  }
+`;
 class Basic extends Component {
   constructor(currentStore, props) {
     super(props);
@@ -16,12 +23,30 @@ class Basic extends Component {
           <div
             style={{ display: "flex", gap: "10px", justifyContent: "center" }}
           >
-            <Button type="primary" onClick={() => this.handleEdit(record)}>
-              Sửa
+            <Button
+              type="primary"
+              onClick={(e) => {
+                e.stopPropagation();
+                this.handleEdit(record);
+              }}
+            >
+              <Icon type="edit" />
             </Button>
-            <Button type="primary" onClick={() => this.handleDelete(record.id)}>
-              Xóa
-            </Button>
+            <Popconfirm
+              title="Are you sure ?"
+              onConfirm={(e) => {
+                e.stopPropagation();
+                this.handleDelete(record.id);
+              }}
+              onCancel={(e) => e.stopPropagation()}
+              okText="Yes"
+              cancelText="No"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ButtonDeleteStyled className="bg-red border-0" type="primary">
+                <Icon type="delete" />
+              </ButtonDeleteStyled>
+            </Popconfirm>
           </div>
         );
       },
@@ -41,6 +66,9 @@ class Basic extends Component {
   }
 
   async componentDidMount() {
+    if (!localStorage.getItem("accessToken")) {
+      this.props.history.push("/login");
+    }
     await this.currentStore.getData();
   }
 
@@ -90,21 +118,54 @@ class Basic extends Component {
                 name: "",
                 cost: "",
                 quantity: "",
+                locationId: "",
+                familyId: "",
+                detail: {
+                  short_description: "",
+                  description: "",
+                },
+                producer: [
+                  {
+                    key: "1",
+                    title: "Tab1",
+                    name: "",
+                    locationLat: "",
+                    locationLong: "",
+                  },
+                ],
               });
             }}
             type="primary"
           >
-            Tạo mới <Icon type="plus-circle" />
+            Create <Icon type="plus-circle" />
           </Button>
         </div>
         <div>
           <Table
-            size="small"
+            style={{
+              border: "1px solid #0d5cb6",
+              borderRadius: "2px",
+            }}
+            scroll={{ y: "calc(100vh - 350px)" }}
             rowKey="id"
             bordered
             dataSource={data}
             columns={columns}
             tableLayout="fixed"
+            loading={!data}
+            onRow={(record, rowIndex) => {
+              return {
+                onClick: (e) => {
+                  this.currentStore.setFormEdit(record);
+                  this.props.history.push(`/product/${record.id}`);
+                },
+                onMouseEnter: (e) => {
+                  <Popover>
+                    <div>quan</div>
+                  </Popover>;
+                }, // mouse enter row
+              };
+            }}
           />
         </div>
         <Modal
@@ -125,6 +186,21 @@ class Basic extends Component {
               name: "",
               cost: "",
               quantity: "",
+              locationId: "",
+              familyId: "",
+              detail: {
+                short_description: "",
+                description: "",
+              },
+              producer: [
+                {
+                  key: "1",
+                  title: "Tab1",
+                  name: "",
+                  locationLat: "",
+                  locationLong: "",
+                },
+              ],
             });
           }}
         >

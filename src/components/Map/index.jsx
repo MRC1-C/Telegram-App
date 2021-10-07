@@ -1,13 +1,20 @@
 import React, { Component } from "react";
 import { Map, TileLayer, Marker, Popup } from "react-leaflet";
-const position = [51.505, -0.09];
-
-export default class TestMap extends Component {
+import { observer, inject } from "mobx-react";
+@inject("rootStore")
+@observer
+class TestMap extends Component {
   render() {
+    const {
+      rootStore: { productStore },
+    } = this.props;
+    const lat = productStore.data[0]?.producer[0]?.locationLat || 51.505;
+    const long = productStore.data[0]?.producer[0]?.locationLlong || -0.09;
+    const position = [lat, long];
     return (
       <div>
         <Map
-          style={{ height: "500px", borderRadius: "4px" }}
+          style={{ height: "calc(100vh - 150px)", borderRadius: "4px" }}
           center={position}
           zoom={13}
           scrollWheelZoom={false}
@@ -16,13 +23,17 @@ export default class TestMap extends Component {
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
-          </Marker>
+          {productStore.data?.map((dt) =>
+            dt.producer.map((pr) => (
+              <Marker key={pr.key} position={[pr.locationLat, pr.locationLong]}>
+                <Popup>{dt.name}</Popup>
+              </Marker>
+            ))
+          )}
         </Map>
       </div>
     );
   }
 }
+
+export default TestMap;

@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router';
 import styled from 'styled-components'
 import Map from '../Map';
 import Product from './Product';
-import UserInfo from './User';
+import ProductId from './Product/Product_Id';
 const { Header, Content, Sider } = Layout;
 const { TabPane } = Tabs;
 const AvatarIcon = props => <Icon component={Avatar} {...props} />;
@@ -31,14 +31,6 @@ const ContentStyled = styled(Content)`
     background-color: white;
 `
 
-const RoomListStyled = styled.div`
-  display: flex;
-  flex-flow: row wrap;  
-  gap: 16px 20px;
-`
-
-const arr = [1,2,3,4,6,7,8,9,10];
-
 class Home extends Component {
   constructor(props){
     super(props);
@@ -62,9 +54,7 @@ class Home extends Component {
   }
 
   async componentDidMount (){
-    if(!localStorage.getItem('accessToken')){
-      this.props.history.push('/login')
-    }
+    this.props.history.push('/products')
   }
   
   
@@ -109,15 +99,16 @@ class Home extends Component {
           </HeaderStyled>
           <ContentStyled>
               <Tabs defaultActiveKey="Tab 2" type='line' onChange={(key)=>this.props.history.push(key)}>
-                <TabPane tab="Tab 1" key="/products" />
-                <TabPane tab="Tab 3" key="/userinfo" />
-                <TabPane tab="Tab 2" key="/map" />
+                <TabPane tab="Products" key="/products" />
+                <TabPane tab="Map" key="/map" />
               </Tabs>
-              <Switch>
-                <Route component={Product} path='/products' />
-                <Route component={UserInfo} path='/userinfo' />
-                <Route component={Map} path='/map' />
-              </Switch>
+              <div >
+                <Switch>
+                  <Route component={Product} path='/products' />
+                  <Route component={Map} path='/map' />
+                  <Route component={ProductId} path='/product/:id' />
+                </Switch>
+              </div>
           </ContentStyled>
         </Layout>
       </Layout>

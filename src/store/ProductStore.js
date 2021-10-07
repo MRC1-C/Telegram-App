@@ -17,12 +17,45 @@ class ProductStore {
   form = {
       name: "",
       cost: "",
-      quantity: ""
+      quantity: "",
+      locationId: "",
+      familyId: "",
+      detail: {
+        short_description: "",
+        description: ""
+      },
+      producer: [{
+        key: '1',
+        title: 'Tab1',
+        name: "",
+        locationLat: "",
+        locationLong: ""
+      }]
   };
 
   constructor(parentStore) {
     makeObservable(this)
     this.parentStore = parentStore;
+  }
+
+  @action 
+  setProducer(key, fields, value ){
+    this.form.producer.map(pr => {
+      if(pr.key === key)
+      {
+        pr[fields] = value;   
+      }
+    })
+  }
+
+  @action
+  removeProducer(key){
+    this.form.producer = this.form.producer.filter(pr => pr.key !== key);
+  }
+
+  @action 
+  addProducer(value){
+    this.form.producer.push(value);
   }
 
   @action
@@ -36,8 +69,13 @@ class ProductStore {
   }
 
   @action
-  setForm(fields, value) {
-    this.form[fields] = value;
+  setForm(fields, fields1, value) {
+    if(fields1 === 0 )
+      {
+        this.form[fields] = value;
+      }
+    else
+      this.form[fields][fields1] = value;
   }
   @action
   async getData() {
